@@ -53,15 +53,22 @@ namespace KisiDefteriOnline6
 
         private void btnSil_Click(object sender, EventArgs e)
         {
+            int sid = lstKisiler.SelectedIndex;
             if (lstKisiler.SelectedItem == null)
             {
                 MessageBox.Show("Silinmesini istediðiniz kiþiyi seçiniz.");
                 return;
             }
 
-            Kisi k = (Kisi)lstKisiler.SelectedItem;
-            kisiler.Remove(k);
-            KisileriListele();
+            DialogResult dr = MessageBox.Show("Seçili kiþiyi silmek istediðinize emin misin?", "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (dr == DialogResult.Yes)
+            {
+                Kisi k = (Kisi)lstKisiler.SelectedItem;
+                kisiler.Remove(k);
+                KisileriListele();
+                lstKisiler.SelectedIndex = Math.Min(sid, lstKisiler.Items.Count - 1);
+            }
         }
 
         private void btnYukari_Click(object sender, EventArgs e)
@@ -100,6 +107,12 @@ namespace KisiDefteriOnline6
             frmDuzenle.ShowDialog();
             KisileriListele();
             lstKisiler.SelectedItem = k;
+        }
+
+        private void lstKisiler_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+                btnSil.PerformClick();
         }
     }
 }

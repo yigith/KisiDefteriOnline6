@@ -92,6 +92,7 @@
             lstKisiler.Name = "lstKisiler";
             lstKisiler.Size = new Size(287, 259);
             lstKisiler.TabIndex = 3;
+            lstKisiler.KeyDown += lstKisiler_KeyDown;
             // 
             // btnDuzenle
             // 
@@ -137,6 +138,7 @@
             // 
             // Form1
             // 
+            AcceptButton = btnEkle;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(345, 355);
