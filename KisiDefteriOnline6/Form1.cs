@@ -1,4 +1,5 @@
-using System.Security.Cryptography;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace KisiDefteriOnline6
 {
@@ -9,8 +10,22 @@ namespace KisiDefteriOnline6
         public Form1()
         {
             InitializeComponent();
-            kisiler = OrnekVeriler();
+            VerileriYukle();
             KisileriListele();
+        }
+
+        private void VerileriYukle()
+        {
+            try
+            {
+                string json = File.ReadAllText("veri.json");
+                kisiler = JsonSerializer.Deserialize<List<Kisi>>(json)!;
+
+            }
+            catch (Exception)
+            {
+                kisiler = OrnekVeriler();
+            }
         }
 
         private void KisileriListele()
@@ -49,6 +64,7 @@ namespace KisiDefteriOnline6
             lstKisiler.SelectedItem = k;
             txtAd.Clear();
             txtSoyad.Clear();
+            txtAd.Focus();
         }
 
         private void btnSil_Click(object sender, EventArgs e)
@@ -113,6 +129,18 @@ namespace KisiDefteriOnline6
         {
             if (e.KeyCode == Keys.Delete)
                 btnSil.PerformClick();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var options = new JsonSerializerOptions()
+            {
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                WriteIndented = true
+            };
+
+            string json = JsonSerializer.Serialize(kisiler, options);
+            File.WriteAllText("veri.json", json);
         }
     }
 }

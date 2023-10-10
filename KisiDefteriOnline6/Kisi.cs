@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace KisiDefteriOnline6
@@ -12,6 +13,7 @@ namespace KisiDefteriOnline6
 
         public string Soyad { get; set; } = "";
 
+        [JsonIgnore]
         public string TamAd => $"{Ad} {Soyad}";
 
         public override string ToString()
